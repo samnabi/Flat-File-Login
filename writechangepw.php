@@ -3,10 +3,14 @@
 <h1>Change password</h1>
 
 <?php
-	$file = file_get_contents("passwords.php");
-	$file = str_replace("\"".$_SESSION['password']."\"","\"".$_GET['newpass']."\"",$file);
-	file_put_contents("passwords.php", $file);
-	session_destroy();
+	if($_GET['newpass']=$_SESSION['password']){
+		$file = file_get_contents("passwords.php");
+		$file = str_replace("\"".$_SESSION['password']."\"","\"".$_GET['newpass']."\"",$file);
+		file_put_contents("passwords.php", $file);
+		session_destroy();
+		header('Location: login.php');
+	}
+	else {
+		echo '<p>The current password you provided is incorrect. Your password has not been changed.</p>';
+	}
 ?>
-
-<p>Your password has been changed from <?php echo $_SESSION['password']; ?> to <?php echo $_GET['newpass']; ?>. Please <a href="login.php">log in again</a> with your new password.</p>
